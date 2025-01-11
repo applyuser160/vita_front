@@ -1,5 +1,8 @@
 "use client"
 
+import { LucideProps } from "lucide-react"
+import { ForwardRefExoticComponent, RefAttributes } from "react"
+
 import {
   Sidebar,
   SidebarContent,
@@ -12,8 +15,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Calendar, Home, Inbox, LucideProps, Search, Settings } from "lucide-react"
-import { ForwardRefExoticComponent, RefAttributes } from "react"
 
 export type SidebarManuItemType = {
   title: string,
