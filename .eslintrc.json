@@ -13,6 +13,7 @@
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/ban-types": "off",
     // add new line above comment
     "lines-around-comment": [
       "error",
@@ -24,28 +25,11 @@
         "allowObjectStart": true,
         "allowArrayStart": true
       }
-    ],
-    // add new line above return
-    "newline-before-return": "error",
-    // add new line below import
-    "import/newline-after-import": [
-      "error",
-      {
-        "count": 1
-      }
-    ],
-    "@typescript-eslint/ban-types": [
-      "error",
-      {
-        "extendDefaults": true,
-        "types": {
-          "{}": false
-        }
-      }
     ]
   },
   "plugins": [
-    "import"
+    "import",
+    "@typescript-eslint"
   ],
   "settings": {
     "import/parsers": {
