@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { LucideProps } from "lucide-react"
-import { ForwardRefExoticComponent, RefAttributes } from "react"
+import { LucideProps } from "lucide-react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 import {
   Sidebar,
@@ -14,18 +14,20 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 export type SidebarManuItemType = {
-  title: string,
-  url: string,
-  icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>
-}
+  title: string;
+  url: string;
+  icon: ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+  >;
+};
 
 export type AppSidebarPropsType = {
-  title: string,
-  items: SidebarManuItemType[]
-}
+  title: string;
+  items: SidebarManuItemType[];
+};
 
 export function AppSidebar(props: AppSidebarPropsType) {
   return (
@@ -33,9 +35,7 @@ export function AppSidebar(props: AppSidebarPropsType) {
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>
-            {props.title}
-          </SidebarGroupLabel>
+          <SidebarGroupLabel>{props.title}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {props.items.map((item) => (
@@ -54,5 +54,5 @@ export function AppSidebar(props: AppSidebarPropsType) {
       </SidebarContent>
       <SidebarFooter />
     </Sidebar>
-  )
+  );
 }

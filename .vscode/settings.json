@@ -4,7 +4,7 @@
   "editor.formatOnPaste": true,
   "editor.codeActionsOnSave": {
     "source.addMissingImports": "always",
-    "source.fixAll.eslint": "always",
+    "source.fixAll.eslint": "always"
   },
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifier": "non-relative",
@@ -17,5 +17,5 @@
     "javascriptreact",
     "typescript",
     "typescriptreact"
-  ],
+  ]
 }

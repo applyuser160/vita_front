@@ -1,6 +1,6 @@
 # 画面構成
 
-``` mermaid
+```mermaid
 flowchart LR
 
   a("トップページ")
@@ -22,4 +22,3 @@ flowchart LR
   a --> h
   a --> i
 ```
-

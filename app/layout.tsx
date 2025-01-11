@@ -1,14 +1,20 @@
-"use client"
+"use client";
 
-import { Home, Inbox, Calendar, Search, Settings } from "lucide-react";
-import dynamic from 'next/dynamic'
+import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import dynamic from "next/dynamic";
 import localFont from "next/font/local";
 import "./globals.css";
 
 import { AppSidebar, SidebarManuItemType } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-const NoSsrThemeProvider = dynamic(() => import('@/components/theme-provider').then((module) => module.ThemeProvider), { ssr: false });
+const NoSsrThemeProvider = dynamic(
+  () =>
+    import("@/components/theme-provider").then(
+      (module) => module.ThemeProvider
+    ),
+  { ssr: false }
+);
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -52,7 +58,7 @@ export default function RootLayout({
       url: "#",
       icon: Settings,
     },
-  ]
+  ];
 
   return (
     <html lang="en">
