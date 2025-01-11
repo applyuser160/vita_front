@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import localFont from "next/font/local";
 import "./globals.css";
 
-import { AppSidebar, SidebarManuItemType } from "@/components/app-sidebar";
+import { AppSidebar, SidebarMenuGroupType } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 const NoSsrThemeProvider = dynamic(
@@ -32,32 +32,43 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const items: SidebarManuItemType[] = [
+  const items: SidebarMenuGroupType[] = [
     {
-      title: "Home",
-      url: "#",
-      icon: Home,
-    },
-    {
-      title: "Inbox",
-      url: "#",
-      icon: Inbox,
-    },
-    {
-      title: "Calendar",
-      url: "#",
-      icon: Calendar,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: Search,
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings,
-    },
+      id: "1",
+      title: "App",
+      items: [
+        {
+          id: "1",
+          title: "Home",
+          url: "#",
+          icon: Home,
+        },
+        {
+          id: "2",
+          title: "Inbox",
+          url: "#",
+          icon: Inbox,
+        },
+        {
+          id: "3",
+          title: "Calendar",
+          url: "#",
+          icon: Calendar,
+        },
+        {
+          id: "4",
+          title: "Search",
+          url: "#",
+          icon: Search,
+        },
+        {
+          id: "5",
+          title: "Settings",
+          url: "#",
+          icon: Settings,
+        }
+      ]
+    }
   ];
 
   return (
@@ -72,7 +83,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SidebarProvider>
-            <AppSidebar title="Application" items={items} />
+            <AppSidebar key="title" groups={items} />
             <SidebarTrigger />
             {children}
           </SidebarProvider>

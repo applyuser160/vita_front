@@ -16,7 +16,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-export type SidebarManuItemType = {
+export type SidebarMenuItemType = {
+  id: string;
   title: string;
   url: string;
   icon: ForwardRefExoticComponent<
@@ -24,9 +25,14 @@ export type SidebarManuItemType = {
   >;
 };
 
-export type AppSidebarPropsType = {
+export type SidebarMenuGroupType = {
+  id: string;
   title: string;
-  items: SidebarManuItemType[];
+  items: SidebarMenuItemType[];
+}
+
+export type AppSidebarPropsType = {
+  groups: SidebarMenuGroupType[];
 };
 
 export function AppSidebar(props: AppSidebarPropsType) {
@@ -34,23 +40,25 @@ export function AppSidebar(props: AppSidebarPropsType) {
     <Sidebar>
       <SidebarHeader />
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>{props.title}</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {props.items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {props.groups.map((group) => (
+          <SidebarGroup key={group.id}>
+            <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <a href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
       <SidebarFooter />
     </Sidebar>
