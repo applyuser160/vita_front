@@ -3,6 +3,7 @@
 import { LucideProps } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
+import { ModeToggle } from "@/components/ui/mode-toggle";
 import {
   Sidebar,
   SidebarContent,
@@ -38,7 +39,9 @@ export type AppSidebarPropsType = {
 export function AppSidebar(props: AppSidebarPropsType) {
   return (
     <Sidebar>
-      <SidebarHeader />
+      <SidebarHeader>
+        <ModeToggle />
+      </SidebarHeader>
       <SidebarContent>
         {props.groups.map((group) => (
           <SidebarGroup key={group.id}>

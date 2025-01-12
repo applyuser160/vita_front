@@ -1,6 +1,13 @@
 "use client";
 
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  Banknote,
+  ChartNoAxesCombined,
+  CreditCard,
+  Home,
+  ReceiptText,
+  Send,
+} from "lucide-react";
 import dynamic from "next/dynamic";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -45,27 +52,39 @@ export default function RootLayout({
         },
         {
           id: "2",
-          title: "Inbox",
+          title: "Account",
           url: "#",
-          icon: Inbox,
+          icon: CreditCard,
         },
         {
           id: "3",
-          title: "Calendar",
+          title: "SubAccount",
           url: "#",
-          icon: Calendar,
+          icon: CreditCard,
         },
         {
           id: "4",
-          title: "Search",
+          title: "Balance",
           url: "#",
-          icon: Search,
+          icon: ReceiptText,
         },
         {
           id: "5",
-          title: "Settings",
+          title: "Cash",
           url: "#",
-          icon: Settings,
+          icon: Banknote,
+        },
+        {
+          id: "6",
+          title: "Plan",
+          url: "#",
+          icon: Send,
+        },
+        {
+          id: "7",
+          title: "Analytics",
+          url: "#",
+          icon: ChartNoAxesCombined,
         },
       ],
     },

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { ModeToggle } from "@/components/ui/mode-toggle";
 import { getAccount } from "@/lib/graphql";
 import {
   AccountGraphqlType,
@@ -30,7 +29,6 @@ export default function Home() {
 
   return (
     <>
-      <ModeToggle />
       <div>{account?.name}</div>
       <div>{error?.message}</div>
     </>
