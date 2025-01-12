@@ -29,7 +29,7 @@ export type SidebarMenuGroupType = {
   id: string;
   title: string;
   items: SidebarMenuItemType[];
-}
+};
 
 export type AppSidebarPropsType = {
   groups: SidebarMenuGroupType[];

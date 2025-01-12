@@ -66,9 +66,9 @@ export default function RootLayout({
           title: "Settings",
           url: "#",
           icon: Settings,
-        }
-      ]
-    }
+        },
+      ],
+    },
   ];
 
   return (

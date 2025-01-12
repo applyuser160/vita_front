@@ -1,4 +1,14 @@
-# 画面構成
+# vita_front
+
+## コマンド
+
+### GraphQLスキーマを更新
+
+```bash
+npx graphql-codegen --config codegen.ts --watch
+```
+
+## 画面構成
 
 ```mermaid
 flowchart LR
