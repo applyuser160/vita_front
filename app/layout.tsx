@@ -1,5 +1,6 @@
 "use client";
 
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import {
   Banknote,
   ChartNoAxesCombined,
@@ -47,13 +48,13 @@ export default function RootLayout({
         {
           id: "1",
           title: "Home",
-          url: "#",
+          url: "/",
           icon: Home,
         },
         {
           id: "2",
           title: "Account",
-          url: "#",
+          url: "/account",
           icon: CreditCard,
         },
         {
@@ -90,23 +91,30 @@ export default function RootLayout({
     },
   ];
 
+  const client = new ApolloClient({
+    uri: process.env.NEXT_PUBLIC_API_URL,
+    cache: new InMemoryCache(),
+  });
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NoSsrThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <SidebarProvider>
-            <AppSidebar key="title" groups={items} />
-            <SidebarTrigger />
-            {children}
-          </SidebarProvider>
-        </NoSsrThemeProvider>
+        <ApolloProvider client={client}>
+          <NoSsrThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <SidebarProvider>
+              <AppSidebar key="title" groups={items} />
+              <SidebarTrigger />
+              {children}
+            </SidebarProvider>
+          </NoSsrThemeProvider>
+        </ApolloProvider>
       </body>
     </html>
   );

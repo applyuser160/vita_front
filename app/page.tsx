@@ -1,36 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
 
-import { getAccount } from "@/lib/graphql";
+import { ACCOUNT } from "@/lib/graphql";
 import {
   AccountGraphqlType,
   VitaErrorGraphqlType,
 } from "@/src/graphql/graphql";
 
 export default function Home() {
-  const [account, setAccount] = useState<AccountGraphqlType>();
-  const [error, setError] = useState<VitaErrorGraphqlType>();
+  const { loading, error, data } = useQuery(ACCOUNT, {
+    variables: { id: "id" },
+  });
 
-  useEffect(() => {
-    (async () => {
-      const result = await getAccount("");
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
 
-      switch (result.__typename) {
-        case "AccountGraphqlType":
-          setAccount(result);
-          break;
-        case "VitaErrorGraphqlType":
-          setError(result);
-          break;
-      }
-    })();
-  }, []);
+  if (data.account.__typename == "VitaErrorGraphqlType") {
+    const vitaError = data.account as VitaErrorGraphqlType;
 
-  return (
-    <>
-      <div>{account?.name}</div>
-      <div>{error?.message}</div>
-    </>
-  );
+    return (
+      <>
+        <div>{vitaError.message}</div>
+      </>
+    );
+  } else {
+    const account = data.account as AccountGraphqlType;
+
+    return (
+      <>
+        <div>{account.name}</div>
+      </>
+    );
+  }
 }

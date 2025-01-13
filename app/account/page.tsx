@@ -1,7 +1,7 @@
 "use client";
 
+import { useQuery } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ACCOUNTS } from "@/lib/graphql";
 import {
   AccountGraphqlType,
   BsPlEnum,
@@ -31,45 +32,52 @@ import {
 } from "@/src/graphql/graphql";
 
 const formSchema = z.object({
-  name: z.string(),
-  description: z.string(),
-  dept: z.string(),
-  bs_pl: z.string(),
-  credit_debit: z.string(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  dept: z.string().optional(),
+  bs_pl: z.string().optional(),
+  credit_debit: z.string().optional(),
 });
 
 export default function Home() {
-  const [accounts, setAccounts] = useState<AccountGraphqlType[]>([]);
-
-  useEffect(() => {
-    setAccounts([
-      {
-        id: "1",
-        name: "name1",
-        description: "desc1",
-        bsPl: BsPlEnum.Bs,
-        creditDebit: CreditDebitEnum.Credit,
-        dept: DeptEnum.ExtraOrdinaryGains,
-        createDate: new Date(),
-        createObjectId: "system",
-      },
-    ]);
-  }, []);
-
-  function onsubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       description: "",
-      dept: "",
-      bs_pl: "",
-      credit_debit: "",
+      dept: undefined,
+      bs_pl: undefined,
+      credit_debit: undefined,
     },
   });
+
+  const { loading, error, data, refetch } = useQuery(ACCOUNTS, {
+    variables: form.getValues,
+  });
+
+  const defaultData: AccountGraphqlType[] = [
+    {
+      id: "1",
+      name: "name1",
+      description: "desc1",
+      bsPl: BsPlEnum.Bs,
+      creditDebit: CreditDebitEnum.Credit,
+      dept: DeptEnum.ExtraOrdinaryGains,
+      createDate: new Date(),
+      createObjectId: "system",
+    },
+  ];
+
+  function onsubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+    console.log(form.getValues);
+    refetch(values);
+  }
+
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
+
+  const accounts = !loading ? defaultData : data.accounts;
 
   return (
     <div className="grid grid-rows-3 grid-flow-col gap-4">
