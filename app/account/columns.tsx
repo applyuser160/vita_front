@@ -37,4 +37,20 @@ export const columns: ColumnDef<AccountGraphqlType>[] = [
     accessorKey: "createObjectId",
     header: "CreateObjectId",
   },
+  {
+    accessorKey: "updateDate",
+    header: "UpdateDate",
+  },
+  {
+    accessorKey: "updateObjectId",
+    header: "UpdateObjectId",
+  },
+  {
+    accessorKey: "deleteDate",
+    header: "DeleteDate",
+  },
+  {
+    accessorKey: "deleteObjectId",
+    header: "DeleteObjectId",
+  },
 ];
