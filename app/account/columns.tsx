@@ -36,6 +36,7 @@ export const columns: ColumnDef<AccountGraphqlType>[] = [
   {
     accessorKey: "createObjectId",
     header: "CreateObjectId",
+    enableHiding: true,
   },
   {
     accessorKey: "updateDate",
@@ -44,6 +45,7 @@ export const columns: ColumnDef<AccountGraphqlType>[] = [
   {
     accessorKey: "updateObjectId",
     header: "UpdateObjectId",
+    enableHiding: true,
   },
   {
     accessorKey: "deleteDate",
@@ -52,5 +54,6 @@ export const columns: ColumnDef<AccountGraphqlType>[] = [
   {
     accessorKey: "deleteObjectId",
     header: "DeleteObjectId",
+    enableHiding: true,
   },
 ];
