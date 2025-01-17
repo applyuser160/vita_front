@@ -52,7 +52,7 @@ export function DataTable<TData, TValue>({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="ml-auto">
-            Display Columns
+            表示カラム
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">

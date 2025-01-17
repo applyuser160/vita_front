@@ -60,7 +60,7 @@ export default function RootLayout({
         {
           id: "3",
           title: "SubAccount",
-          url: "#",
+          url: "/subaccount",
           icon: CreditCard,
         },
         {

@@ -7,8 +7,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { columns } from "@/app/account/columns";
-import { DataTable } from "@/app/account/table";
+import { columns } from "@/app/subaccount/columns";
+import { DataTable } from "@/app/subaccount/table";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,42 +25,26 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Toggle } from "@/components/ui/toggle";
 import {
-  ACCOUNTS,
-  CREATE_ACCOUNT,
-  DELETE_ACCOUNT,
-  UPDATE_ACCOUNT,
+  CREATE_SUB_ACCOUNT,
+  DELETE_SUB_ACCOUNT,
+  SUB_ACCOUNTS,
+  UPDATE_SUB_ACCOUNT,
 } from "@/lib/graphql";
-import {
-  AccountGraphqlType,
-  BsPlEnum,
-  CreditDebitEnum,
-  DeptEnum,
-} from "@/src/graphql/graphql";
+import { SubAccountGraphqlType } from "@/src/graphql/graphql";
 
 const conditionFormSchema = z.object({
   name: z.string().optional(),
   description: z.string().optional(),
-  dept: z.string().optional(),
-  bsPl: z.string().optional(),
-  creditDebit: z.string().optional(),
+  accountId: z.string().optional(),
 });
 
 const formSchema = z.object({
   id: z.string().optional(),
   name: z.string().optional(),
   description: z.string().optional(),
-  dept: z.string().optional(),
-  bsPl: z.string().optional(),
-  creditDebit: z.string().optional(),
+  accountId: z.string().optional(),
   createDate: z.string().optional(),
   createObjectId: z.string().optional(),
   updateDate: z.string().optional(),
@@ -77,9 +61,7 @@ export default function Home() {
     defaultValues: {
       name: "",
       description: "",
-      dept: undefined,
-      bsPl: undefined,
-      creditDebit: undefined,
+      accountId: "",
     },
   });
 
@@ -89,9 +71,7 @@ export default function Home() {
       id: "",
       name: "",
       description: "",
-      dept: undefined,
-      bsPl: undefined,
-      creditDebit: undefined,
+      accountId: "",
       createDate: undefined,
       createObjectId: undefined,
       updateDate: undefined,
@@ -101,22 +81,20 @@ export default function Home() {
     },
   });
 
-  const { loading, data, refetch } = useQuery(ACCOUNTS, {
+  const { loading, data, refetch } = useQuery(SUB_ACCOUNTS, {
     variables: conditionForm.getValues,
   });
 
-  const [createAccount] = useMutation(CREATE_ACCOUNT);
-  const [updateAccount] = useMutation(UPDATE_ACCOUNT);
-  const [deleteAccount] = useMutation(DELETE_ACCOUNT);
+  const [createSubAccount] = useMutation(CREATE_SUB_ACCOUNT);
+  const [updateSubAccount] = useMutation(UPDATE_SUB_ACCOUNT);
+  const [deleteSubAccount] = useMutation(DELETE_SUB_ACCOUNT);
 
-  const defaultData: AccountGraphqlType[] = [
+  const defaultData: SubAccountGraphqlType[] = [
     {
       id: "1",
       name: "name1",
       description: "desc1",
-      bsPl: BsPlEnum.Bs,
-      creditDebit: CreditDebitEnum.Credit,
-      dept: DeptEnum.ExtraOrdinaryGains,
+      accountId: "1",
       createDate: "2024-01-01T12:00:00",
       createObjectId: "system",
       updateDate: "2024-01-01T12:00:00",
@@ -133,24 +111,20 @@ export default function Home() {
   async function save(values: z.infer<typeof formSchema>) {
     try {
       if (isUpdate) {
-        await updateAccount({
+        await updateSubAccount({
           variables: {
             id: values.id,
             name: values.name,
             description: values.description,
-            bsPl: values.bsPl,
-            creditDebit: values.creditDebit,
-            dept: values.dept,
+            accountId: values.accountId,
           },
         });
       } else {
-        await createAccount({
+        await createSubAccount({
           variables: {
             name: values.name,
             description: values.description,
-            bsPl: values.bsPl,
-            creditDebit: values.creditDebit,
-            dept: values.dept,
+            accountId: values.accountId,
           },
         });
       }
@@ -169,7 +143,7 @@ export default function Home() {
     if (!form.getValues("id")) return;
 
     try {
-      await deleteAccount({
+      await deleteSubAccount({
         variables: {
           id: form.getValues("id"),
         },
@@ -187,11 +161,9 @@ export default function Home() {
 
   if (loading) return "Loading...";
 
-  // if (error) return `Error! ${error.message}`;
+  const subAccounts = !loading ? defaultData : data.subAccounts;
 
-  const accounts = !loading ? defaultData : data.accounts;
-
-  const addedColumns: ColumnDef<AccountGraphqlType>[] = [
+  const addedColumns: ColumnDef<SubAccountGraphqlType>[] = [
     ...columns,
     {
       id: "select",
@@ -201,9 +173,7 @@ export default function Home() {
             form.setValue("id", row.getValue("id"));
             form.setValue("name", row.getValue("name"));
             form.setValue("description", row.getValue("description"));
-            form.setValue("bsPl", row.getValue("bsPl"));
-            form.setValue("creditDebit", row.getValue("creditDebit"));
-            form.setValue("dept", row.getValue("dept"));
+            form.setValue("accountId", row.getValue("accountId"));
             form.setValue("createDate", row.getValue("createDate"));
             form.setValue("createObjectId", row.getValue("createObjectId"));
             form.setValue("updateDate", row.getValue("updateDate"));
@@ -254,79 +224,13 @@ export default function Home() {
                 />
                 <FormField
                   control={conditionForm.control}
-                  name="dept"
+                  name="accountId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Dept</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a department" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.entries(DeptEnum).map(([_, value]) => (
-                            <SelectItem key={value} value={value}>
-                              {value}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={conditionForm.control}
-                  name="bsPl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>BS/PL</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select BS/PL" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.entries(BsPlEnum).map(([_, value]) => (
-                            <SelectItem key={value} value={value}>
-                              {value}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={conditionForm.control}
-                  name="creditDebit"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Credit/Debit</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select Credit/Debit" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.entries(CreditDebitEnum).map(([_, value]) => (
-                            <SelectItem key={value} value={value}>
-                              {value}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <FormLabel>AccountId</FormLabel>
+                      <FormControl>
+                        <Input placeholder="shadcn" {...field} />
+                      </FormControl>
                     </FormItem>
                   )}
                 />
@@ -335,14 +239,14 @@ export default function Home() {
             </Form>
           </CardContent>
           <CardFooter>
-            <DataTable columns={addedColumns} data={accounts!} />
+            <DataTable columns={addedColumns} data={subAccounts!} />
           </CardFooter>
         </Card>
         <Card className="col-span-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(save)}>
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Account</CardTitle>
+                <CardTitle>SubAccount</CardTitle>
                 <Toggle
                   pressed={isUpdate}
                   onPressedChange={setIsUpdate}
@@ -378,79 +282,13 @@ export default function Home() {
                 />
                 <FormField
                   control={form.control}
-                  name="dept"
+                  name="accountId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Dept</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a department" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.entries(DeptEnum).map(([_, value]) => (
-                            <SelectItem key={value} value={value}>
-                              {value}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="bsPl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>BS/PL</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select BS/PL" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.entries(BsPlEnum).map(([_, value]) => (
-                            <SelectItem key={value} value={value}>
-                              {value}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="creditDebit"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Credit/Debit</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select Credit/Debit" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.entries(CreditDebitEnum).map(([_, value]) => (
-                            <SelectItem key={value} value={value}>
-                              {value}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <FormLabel>AccountId</FormLabel>
+                      <FormControl>
+                        <Input placeholder="shadcn" {...field} />
+                      </FormControl>
                     </FormItem>
                   )}
                 />
