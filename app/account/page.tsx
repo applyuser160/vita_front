@@ -3,7 +3,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -103,6 +103,7 @@ export default function Home() {
 
   const { loading, data, refetch } = useQuery(ACCOUNTS, {
     variables: conditionForm.getValues,
+    fetchPolicy: "cache-and-network",
   });
 
   const [createAccount] = useMutation(CREATE_ACCOUNT);
@@ -155,10 +156,7 @@ export default function Home() {
         });
       }
 
-      // フォームをリセット
       form.reset();
-
-      // 検索結果を更新
       refetch();
     } catch (error) {
       console.error(error);
@@ -175,10 +173,7 @@ export default function Home() {
         },
       });
 
-      // フォームをリセット
       form.reset();
-
-      // 検索結果を更新
       refetch();
     } catch (error) {
       console.error(error);
@@ -186,8 +181,6 @@ export default function Home() {
   }
 
   if (loading) return "Loading...";
-
-  // if (error) return `Error! ${error.message}`;
 
   const accounts = !loading ? defaultData : data.accounts;
 
@@ -335,7 +328,9 @@ export default function Home() {
             </Form>
           </CardContent>
           <CardFooter>
-            <DataTable columns={addedColumns} data={accounts!} />
+            <Suspense fallback={<div>Loading table...</div>}>
+              <DataTable columns={addedColumns} data={accounts!} />
+            </Suspense>
           </CardFooter>
         </Card>
         <Card className="col-span-4">

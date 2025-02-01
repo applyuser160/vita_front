@@ -33,32 +33,34 @@ export type Scalars = {
 };
 
 export type AccountGraphqlInput = {
-  bsPl: BsPlEnum;
+  bsPl?: InputMaybe<BsPlEnum>;
   createDate?: InputMaybe<Scalars["DateTime"]["input"]>;
   createObjectId?: InputMaybe<Scalars["String"]["input"]>;
-  creditDebit: CreditDebitEnum;
+  creditDebit?: InputMaybe<CreditDebitEnum>;
   deleteDate?: InputMaybe<Scalars["DateTime"]["input"]>;
   deleteObjectId?: InputMaybe<Scalars["String"]["input"]>;
-  dept: DeptEnum;
+  dept?: InputMaybe<DeptEnum>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   id?: InputMaybe<Scalars["String"]["input"]>;
-  name: Scalars["String"]["input"];
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  subAccounts?: InputMaybe<Array<SubAccountGraphqlInput>>;
   updateDate?: InputMaybe<Scalars["DateTime"]["input"]>;
   updateObjectId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type AccountGraphqlType = {
   __typename?: "AccountGraphqlType";
-  bsPl: BsPlEnum;
+  bsPl?: Maybe<BsPlEnum>;
   createDate?: Maybe<Scalars["DateTime"]["output"]>;
   createObjectId?: Maybe<Scalars["String"]["output"]>;
-  creditDebit: CreditDebitEnum;
+  creditDebit?: Maybe<CreditDebitEnum>;
   deleteDate?: Maybe<Scalars["DateTime"]["output"]>;
   deleteObjectId?: Maybe<Scalars["String"]["output"]>;
-  dept: DeptEnum;
+  dept?: Maybe<DeptEnum>;
   description?: Maybe<Scalars["String"]["output"]>;
   id?: Maybe<Scalars["String"]["output"]>;
-  name: Scalars["String"]["output"];
+  name?: Maybe<Scalars["String"]["output"]>;
+  subAccounts?: Maybe<Array<SubAccountGraphqlType>>;
   updateDate?: Maybe<Scalars["DateTime"]["output"]>;
   updateObjectId?: Maybe<Scalars["String"]["output"]>;
 };
@@ -84,7 +86,7 @@ export type BalanceGraphqlType = {
   deleteObjectId?: Maybe<Scalars["String"]["output"]>;
   id?: Maybe<Scalars["String"]["output"]>;
   subAccountId?: Maybe<Scalars["String"]["output"]>;
-  totalAmount: Scalars["Int"]["output"];
+  totalAmount?: Maybe<Scalars["Int"]["output"]>;
   updateDate?: Maybe<Scalars["DateTime"]["output"]>;
   updateObjectId?: Maybe<Scalars["String"]["output"]>;
 };
@@ -111,12 +113,12 @@ export type DailyBalanceGraphqlType = {
   accountId?: Maybe<Scalars["String"]["output"]>;
   createDate?: Maybe<Scalars["DateTime"]["output"]>;
   createObjectId?: Maybe<Scalars["String"]["output"]>;
-  date: Scalars["Date"]["output"];
   deleteDate?: Maybe<Scalars["DateTime"]["output"]>;
   deleteObjectId?: Maybe<Scalars["String"]["output"]>;
   id?: Maybe<Scalars["String"]["output"]>;
   subAccountId?: Maybe<Scalars["String"]["output"]>;
-  totalAmount: Scalars["Int"]["output"];
+  targetDate?: Maybe<Scalars["Date"]["output"]>;
+  totalAmount?: Maybe<Scalars["Int"]["output"]>;
   updateDate?: Maybe<Scalars["DateTime"]["output"]>;
   updateObjectId?: Maybe<Scalars["String"]["output"]>;
 };
@@ -140,19 +142,41 @@ export enum DeptEnum {
   SalesManagementExpenses = "SALES_MANAGEMENT_EXPENSES",
 }
 
+export type InnerJournalEntryGraphqlInput = {
+  account?: InputMaybe<AccountGraphqlInput>;
+  accountId?: InputMaybe<Scalars["String"]["input"]>;
+  amount?: InputMaybe<Scalars["Int"]["input"]>;
+  createDate?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createObjectId?: InputMaybe<Scalars["String"]["input"]>;
+  creditDebit?: InputMaybe<CreditDebitEnum>;
+  deleteDate?: InputMaybe<Scalars["DateTime"]["input"]>;
+  deleteObjectId?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  index?: InputMaybe<Scalars["Int"]["input"]>;
+  journalEntry?: InputMaybe<JournalEntryGraphqlInput>;
+  journalEntryId?: InputMaybe<Scalars["String"]["input"]>;
+  subAccount?: InputMaybe<SubAccountGraphqlInput>;
+  subAccountId?: InputMaybe<Scalars["String"]["input"]>;
+  updateDate?: InputMaybe<Scalars["DateTime"]["input"]>;
+  updateObjectId?: InputMaybe<Scalars["String"]["input"]>;
+};
+
 export type InnerJournalEntryGraphqlType = {
   __typename?: "InnerJournalEntryGraphqlType";
-  accountId: Scalars["String"]["output"];
-  amount: Scalars["Int"]["output"];
+  account?: Maybe<AccountGraphqlType>;
+  accountId?: Maybe<Scalars["String"]["output"]>;
+  amount?: Maybe<Scalars["Int"]["output"]>;
   createDate?: Maybe<Scalars["DateTime"]["output"]>;
   createObjectId?: Maybe<Scalars["String"]["output"]>;
-  creditDebit: CreditDebitEnum;
+  creditDebit?: Maybe<CreditDebitEnum>;
   deleteDate?: Maybe<Scalars["DateTime"]["output"]>;
   deleteObjectId?: Maybe<Scalars["String"]["output"]>;
   id?: Maybe<Scalars["String"]["output"]>;
   index?: Maybe<Scalars["Int"]["output"]>;
-  journalEntryId: Scalars["String"]["output"];
-  subAccountId: Scalars["String"]["output"];
+  journalEntry?: Maybe<JournalEntryGraphqlType>;
+  journalEntryId?: Maybe<Scalars["String"]["output"]>;
+  subAccount?: Maybe<SubAccountGraphqlType>;
+  subAccountId?: Maybe<Scalars["String"]["output"]>;
   updateDate?: Maybe<Scalars["DateTime"]["output"]>;
   updateObjectId?: Maybe<Scalars["String"]["output"]>;
 };
@@ -170,13 +194,14 @@ export type JournalEntriesGraphqlInput = {
 export type JournalEntryGraphqlInput = {
   createDate?: InputMaybe<Scalars["DateTime"]["input"]>;
   createObjectId?: InputMaybe<Scalars["String"]["input"]>;
-  date: Scalars["Date"]["input"];
   deleteDate?: InputMaybe<Scalars["DateTime"]["input"]>;
   deleteObjectId?: InputMaybe<Scalars["String"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   id?: InputMaybe<Scalars["String"]["input"]>;
+  innerJournalEntries?: InputMaybe<Array<InnerJournalEntryGraphqlInput>>;
   name?: InputMaybe<Scalars["String"]["input"]>;
-  status: StatusEnum;
+  status?: InputMaybe<StatusEnum>;
+  targetDate?: InputMaybe<Scalars["Date"]["input"]>;
   updateDate?: InputMaybe<Scalars["DateTime"]["input"]>;
   updateObjectId?: InputMaybe<Scalars["String"]["input"]>;
 };
@@ -185,13 +210,14 @@ export type JournalEntryGraphqlType = {
   __typename?: "JournalEntryGraphqlType";
   createDate?: Maybe<Scalars["DateTime"]["output"]>;
   createObjectId?: Maybe<Scalars["String"]["output"]>;
-  date: Scalars["Date"]["output"];
   deleteDate?: Maybe<Scalars["DateTime"]["output"]>;
   deleteObjectId?: Maybe<Scalars["String"]["output"]>;
   description?: Maybe<Scalars["String"]["output"]>;
   id?: Maybe<Scalars["String"]["output"]>;
+  innerJournalEntries?: Maybe<Array<InnerJournalEntryGraphqlType>>;
   name?: Maybe<Scalars["String"]["output"]>;
-  status: StatusEnum;
+  status?: Maybe<StatusEnum>;
+  targetDate?: Maybe<Scalars["Date"]["output"]>;
   updateDate?: Maybe<Scalars["DateTime"]["output"]>;
   updateObjectId?: Maybe<Scalars["String"]["output"]>;
 };
@@ -309,28 +335,30 @@ export enum StatusEnum {
 }
 
 export type SubAccountGraphqlInput = {
-  accountId: Scalars["String"]["input"];
+  account?: InputMaybe<AccountGraphqlInput>;
+  accountId?: InputMaybe<Scalars["String"]["input"]>;
   createDate?: InputMaybe<Scalars["DateTime"]["input"]>;
   createObjectId?: InputMaybe<Scalars["String"]["input"]>;
   deleteDate?: InputMaybe<Scalars["DateTime"]["input"]>;
   deleteObjectId?: InputMaybe<Scalars["String"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   id?: InputMaybe<Scalars["String"]["input"]>;
-  name: Scalars["String"]["input"];
+  name?: InputMaybe<Scalars["String"]["input"]>;
   updateDate?: InputMaybe<Scalars["DateTime"]["input"]>;
   updateObjectId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type SubAccountGraphqlType = {
   __typename?: "SubAccountGraphqlType";
-  accountId: Scalars["String"]["output"];
+  account?: Maybe<AccountGraphqlType>;
+  accountId?: Maybe<Scalars["String"]["output"]>;
   createDate?: Maybe<Scalars["DateTime"]["output"]>;
   createObjectId?: Maybe<Scalars["String"]["output"]>;
   deleteDate?: Maybe<Scalars["DateTime"]["output"]>;
   deleteObjectId?: Maybe<Scalars["String"]["output"]>;
   description?: Maybe<Scalars["String"]["output"]>;
   id?: Maybe<Scalars["String"]["output"]>;
-  name: Scalars["String"]["output"];
+  name?: Maybe<Scalars["String"]["output"]>;
   updateDate?: Maybe<Scalars["DateTime"]["output"]>;
   updateObjectId?: Maybe<Scalars["String"]["output"]>;
 };

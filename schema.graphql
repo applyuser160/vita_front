@@ -4,31 +4,33 @@ schema {
 }
 
 input AccountGraphqlInput {
-  bsPl: BsPlEnum!
+  bsPl: BsPlEnum = null
   createDate: DateTime = null
   createObjectId: String = null
-  creditDebit: CreditDebitEnum!
+  creditDebit: CreditDebitEnum = null
   deleteDate: DateTime = null
   deleteObjectId: String = null
-  dept: DeptEnum!
+  dept: DeptEnum = null
   description: String = null
   id: String = null
-  name: String!
+  name: String = null
+  subAccounts: [SubAccountGraphqlInput!] = null
   updateDate: DateTime = null
   updateObjectId: String = null
 }
 
 type AccountGraphqlType {
-  bsPl: BsPlEnum!
+  bsPl: BsPlEnum
   createDate: DateTime
   createObjectId: String
-  creditDebit: CreditDebitEnum!
+  creditDebit: CreditDebitEnum
   deleteDate: DateTime
   deleteObjectId: String
-  dept: DeptEnum!
+  dept: DeptEnum
   description: String
   id: String
-  name: String!
+  name: String
+  subAccounts: [SubAccountGraphqlType!]
   updateDate: DateTime
   updateObjectId: String
 }
@@ -53,7 +55,7 @@ type BalanceGraphqlType {
   deleteObjectId: String
   id: String
   subAccountId: String
-  totalAmount: Int!
+  totalAmount: Int
   updateDate: DateTime
   updateObjectId: String
 }
@@ -79,12 +81,12 @@ type DailyBalanceGraphqlType {
   accountId: String
   createDate: DateTime
   createObjectId: String
-  date: Date!
   deleteDate: DateTime
   deleteObjectId: String
   id: String
   subAccountId: String
-  totalAmount: Int!
+  targetDate: Date
+  totalAmount: Int
   updateDate: DateTime
   updateObjectId: String
 }
@@ -118,18 +120,40 @@ enum DeptEnum {
   SALES_MANAGEMENT_EXPENSES
 }
 
+input InnerJournalEntryGraphqlInput {
+  account: AccountGraphqlInput = null
+  accountId: String = null
+  amount: Int = null
+  createDate: DateTime = null
+  createObjectId: String = null
+  creditDebit: CreditDebitEnum = null
+  deleteDate: DateTime = null
+  deleteObjectId: String = null
+  id: String = null
+  index: Int = null
+  journalEntry: JournalEntryGraphqlInput = null
+  journalEntryId: String = null
+  subAccount: SubAccountGraphqlInput = null
+  subAccountId: String = null
+  updateDate: DateTime = null
+  updateObjectId: String = null
+}
+
 type InnerJournalEntryGraphqlType {
-  accountId: String!
-  amount: Int!
+  account: AccountGraphqlType
+  accountId: String
+  amount: Int
   createDate: DateTime
   createObjectId: String
-  creditDebit: CreditDebitEnum!
+  creditDebit: CreditDebitEnum
   deleteDate: DateTime
   deleteObjectId: String
   id: String
   index: Int
-  journalEntryId: String!
-  subAccountId: String!
+  journalEntry: JournalEntryGraphqlType
+  journalEntryId: String
+  subAccount: SubAccountGraphqlType
+  subAccountId: String
   updateDate: DateTime
   updateObjectId: String
 }
@@ -147,13 +171,14 @@ input JournalEntriesGraphqlInput {
 input JournalEntryGraphqlInput {
   createDate: DateTime = null
   createObjectId: String = null
-  date: Date!
   deleteDate: DateTime = null
   deleteObjectId: String = null
   description: String = null
   id: String = null
+  innerJournalEntries: [InnerJournalEntryGraphqlInput!] = null
   name: String = null
-  status: StatusEnum!
+  status: StatusEnum = null
+  targetDate: Date = null
   updateDate: DateTime = null
   updateObjectId: String = null
 }
@@ -161,13 +186,14 @@ input JournalEntryGraphqlInput {
 type JournalEntryGraphqlType {
   createDate: DateTime
   createObjectId: String
-  date: Date!
   deleteDate: DateTime
   deleteObjectId: String
   description: String
   id: String
+  innerJournalEntries: [InnerJournalEntryGraphqlType!]
   name: String
-  status: StatusEnum!
+  status: StatusEnum
+  targetDate: Date
   updateDate: DateTime
   updateObjectId: String
 }
@@ -241,27 +267,29 @@ enum StatusEnum {
 }
 
 input SubAccountGraphqlInput {
-  accountId: String!
+  account: AccountGraphqlInput = null
+  accountId: String = null
   createDate: DateTime = null
   createObjectId: String = null
   deleteDate: DateTime = null
   deleteObjectId: String = null
   description: String = null
   id: String = null
-  name: String!
+  name: String = null
   updateDate: DateTime = null
   updateObjectId: String = null
 }
 
 type SubAccountGraphqlType {
-  accountId: String!
+  account: AccountGraphqlType
+  accountId: String
   createDate: DateTime
   createObjectId: String
   deleteDate: DateTime
   deleteObjectId: String
   description: String
   id: String
-  name: String!
+  name: String
   updateDate: DateTime
   updateObjectId: String
 }

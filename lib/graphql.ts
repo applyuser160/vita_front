@@ -325,7 +325,7 @@ export const JOURNAL_ENTRY = gql`
         id
         name
         description
-        date
+        targetDate
         status
         createDate
         createObjectId
@@ -367,7 +367,7 @@ export const JOURNAL_ENTRIES = gql`
       id
       name
       description
-      date
+      targetDate
       status
       createDate
       createObjectId
@@ -383,14 +383,14 @@ export const CREATE_JOURNAL_ENTRY = gql`
   mutation CreateJournalEntry(
     $name: String
     $description: String
-    $date: Date!
+    $targetDate: Date!
     $status: StatusEnum!
   ) {
     createJournalEntry(
       input: {
         name: $name
         description: $description
-        date: $date
+        targetDate: $targetDate
         status: $status
       }
     ) {
@@ -398,7 +398,7 @@ export const CREATE_JOURNAL_ENTRY = gql`
         id
         name
         description
-        date
+        targetDate
         status
         createDate
         createObjectId
@@ -421,7 +421,7 @@ export const UPDATE_JOURNAL_ENTRY = gql`
     $id: String!
     $name: String
     $description: String
-    $date: Date
+    $targetDate: Date
     $status: StatusEnum
   ) {
     updateJournalEntry(
@@ -429,7 +429,7 @@ export const UPDATE_JOURNAL_ENTRY = gql`
         id: $id
         name: $name
         description: $description
-        date: $date
+        targetDate: $targetDate
         status: $status
       }
     ) {
@@ -437,7 +437,7 @@ export const UPDATE_JOURNAL_ENTRY = gql`
         id
         name
         description
-        date
+        targetDate
         status
         createDate
         createObjectId
@@ -462,7 +462,7 @@ export const DELETE_JOURNAL_ENTRY = gql`
         id
         name
         description
-        date
+        targetDate
         status
         createDate
         createObjectId
@@ -559,7 +559,7 @@ export const CALCULATE_DAILY_BALANCE = gql`
       id
       accountId
       subAccountId
-      date
+      targetDate
       totalAmount
       createDate
       createObjectId
